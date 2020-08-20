@@ -1,13 +1,20 @@
 # MATLAB Control of Planar Robots
-MATLAB scripts to implement common control techniques on planar robots
+MATLAB scripts to implement common control techniques on planar robots.
 
 1. 1-DoF
-   1. Impedance Control
-      1. Joint space
-      1. Task space
-   1. Admittance Control
-      1. Joint space
-      1. Task space
+   1. Impedance
+      1. Joint
+      1. Task
+   1. Admittance
+      1. Joint
+      1. Task
+1. 2-DoF
+   1. Impedance
+      1. Joint
+      1. Task
+   2. Admittance
+      1. Joint
+      2. Task
       
 ## Robot model
 The robot dynamics (Siciliano and Khatib, 2008) are described by the following matrices:
