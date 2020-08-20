@@ -40,7 +40,7 @@ To deal with the interactions with the surrounding environment, two control loop
 
 In the absence of interaction, the outer loop is not active and the inner loop rules the robot movement.\
 In the case the robot interacts with the environment, both loops are active.\
-The <i>reason d'être<\i> of the outer loop is to change the robot reference, which is input in the inner loop.
+The <i>reason d'être</i> of the outer loop is to change the robot reference, which is input in the inner loop.
    
 ### Inner Control Loop
    The inner controller is a Proportional-Derivative-Integrative (PID). There are instances in which it is simplied to simpler forms by tuning one of the gains to zero.
