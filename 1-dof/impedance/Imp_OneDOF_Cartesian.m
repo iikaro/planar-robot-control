@@ -75,13 +75,13 @@ for i = 1 : length(t) - 1
     end
     
     % Control signal
-    tau_a(i) = InnerLoopControl(k_p, k_d, k_i, F_error(:,i), dF_error(:,i), F_int_error(:,i), Jacobian);
+    tau_a(i) = Jacobian'*(k_p * F_error(:,i) + k_d * dF_error(:,i) + k_i * F_int_error(:,i)) + (L/2)*m*g*cos(q(i));
     tau_a(i) = Saturation(tau_a(i), torque_max, torque_min);
-    
-    G = (L/2)*m*g*cos(q(i));
-    
+
     % Outputs
-    [ddq(i), dq(i + 1), q(i+1)] = RobotSimulation(J, G, 0, B, Jacobian, tau_a(i), F_ext(:,i), dq(i), q(i), dt, isBackdrivable, dof);
+    ddq(i) = (1/J)*(tau_a(i) - (L/2)*m*g*cos(q(i)) - B*dq(i) - K*q(i));
+    dq(i + 1) = dq(i) + ddq(i)*dt;
+    q(i + 1) = q(i) + dq(i)*dt + 0.5*ddq(i)*dt*dt;
 end
 
 % Graphic Simulation

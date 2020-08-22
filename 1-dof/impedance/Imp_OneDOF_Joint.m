@@ -55,7 +55,7 @@ for i = 1 : length(t) - 1
         tau_int_error(i) = tau_int_error(i - 1) + (tau_error(i) + tau_error(i - 1))*dt/2;
     end
     
-    % Control signal (=~ torque)
+    % Control signal
     tau_a(i) = k_p * tau_error(i) + k_d * dtau_error(i) + k_i * tau_int_error(i) + (L/2)*m*g*cos(q(i));
     tau_a(i) = Saturation(tau_a(i), torque_max, torque_min);
     
