@@ -67,15 +67,29 @@ The <i>reason d'être</i> of the outer loop is to change the robot reference, wh
    
    It is said that impedance and admittance form a dual relationship.
    
-## Task Space
+## Task Space and Joint Space
+### Task Space
 In task space, the interaction of the robot with the environment is represented by linear quantities, i.e. forces and vertical/horizontal displacements. It is as if the robot was moving around and, suddenly, something blocked its end-effector, for instance a wall or any other obstacle.
 
 Thus, the environment offers resistance to robot displacement over X and Y directions, but the robot can rotate its joints freely (as long as the X and Y position of the end-effector do not change).
 
-## Joint Space
+### Joint Space
 In joint space, the interaction of the robot with the environment manifests as angular quantities, i.e. torques and angular displacements. It is as if the robot had the movement of its joints constrained to certain values (similarly to the human joints), or as if the joints themselves had some sort of damping within its bearings.
 
-Thus, the environment offers resistance to robot displacement performed by its joints. This restriction may occur only to certain values of displacement (again, similarly to human joints) or over the whole range of values of the joint.
+Thus, the environment offers resistance the angular displacement performed by the joints of the robot. This restriction may occur only to certain values of displacement (again, similarly to human joints) or over the whole range of values of the joint.
+
+### Which one is right?
+There is no right or wrong whatsoever. It depends solely on the application, the situation you are trying to model.\
+In case you are trying to model the interaction of a industrial robot (UR5 for instance) with the surrounding environment, so it does not hit walls blindly, and rather stops to prevent penetrating them, task space is more adequate.
+
+Now imagine the case you are trying to model a robotic arm which interacts with a fluid: the robotic arm attached to a submarine, for instance. The interaction with the environment occurs at joint level, that is, the environment generates resistive torques that preven the robot from moving accordingly. In this case, the joint space approach is more adequate.
+
+The same is applicable with respect not only to the interaction with respect to the environment (outer control loop) but also with respect to the inner-control loop as well.
+
+If you want to follow a desired joint trajectory or torque reference, joint space is your way to go.\
+Whereas if you want to follow a desired trajectory in space (X,Y,Z) coordinates, task space is what suits better.
+
+Performance restrictions, application, etc. may also lead you to approach the problem one way or another.
 
 ## One degree-of-freedom
 ![imp-1dof-rot](https://github.com/iikaro/planar-robot-control/blob/master/drawings/imp-1dof/imp-1dof-joint.png)
