@@ -21,21 +21,21 @@ run('Variables_1DoF.m')
 q_d = 1*sin(pi*t)';
 
 % PID Position Control 
-k_p = 200;
+k_p = 500;
 k_d = 50;
-k_i = 0*1;
+k_i = 0;
 
 % Environment
-K_env = 5e1;
-B_env = 0;
+K_env = 5;
+B_env = 1;
 
 % Obstacle
 angle = 0.5;
 wall = L*sin(angle);
 
 % Admittance Control Parameters
-K_d = 100;             %N/rad
-B_d = 5;             %N.s/rad
+K_d = 1e3;             %N/rad
+B_d = 10;             %N.s/rad
 M_d = 0;             %%N.s^2/rad
 
 % Simulation
@@ -77,19 +77,20 @@ for i = 1 : length(t) - 1
     end
     
     % Inverse Kinematics
-    q_r(i) = atan2(x_r(2,i), x_r(1,i));
+    if (y > wall)
+        q_r(i) = asin((x_r(2,i) - y)/L); 
+    end
     
     % Inner position control loop
     q_error(i) = q_d(i) - q(i) + q_r(i);
-    dq_error(i) = - dq(i);
     
     if i ~= 1
         int_error(i) = int_error(i - 1) + (q_error(i) + q_error(i - 1))*dt/2;
+        dq_error(i) = ( q_error(i) - q_error(i-1) ) / dt;
     end
     
     % Control signal (=~ torque)
     tau_a(i) = k_p * q_error(i) + k_d * dq_error(i) + k_i * int_error(i) + (L/2)*m*g*cos(q(i));
-    
     tau_a(i) = Saturation(tau_a(i), torque_max, torque_min);
     
     % Outputs
