@@ -28,7 +28,7 @@ angle = 30*pi/180;
 wall = sin(angle)*L;
 
 % Impedance Control
-K_d = 20;
+K_d = 200;
 B_d = 1;
 
 % PID Force Control Gains
@@ -40,7 +40,7 @@ k_i = 0;
 for i = 1 : length(t) - 1
     
     % Desired Torque (Impedance Control)
-    tau_r(i) = K_imp*(q_d(i) - q(i)) - B_imp*(dq(i));
+    tau_r(i) = K_d*(q_d(i) - q(i)) - B_d*(dq(i));
     
     % Environment Detection
     if(q(i) > angle)
@@ -56,7 +56,7 @@ for i = 1 : length(t) - 1
     end
     
     % Control signal (=~ torque)
-    tau_a(i) = Kp * tau_error(i) + Kd * dtau_error(i) + Ki * tau_int_error(i) + (L/2)*m*g*cos(q(i));
+    tau_a(i) = k_p * tau_error(i) + k_d * dtau_error(i) + k_i * tau_int_error(i) + (L/2)*m*g*cos(q(i));
     tau_a(i) = Saturation(tau_a(i), torque_max, torque_min);
     
     % Outputs
