@@ -1,9 +1,11 @@
 function [t, dt] = SimulationTime(t_initial, t_final, samples)
-% SimulationTime  Return the simulation time array (t) and the time step (dt).
+% SIMULATIONTIME  The simulation time array (t) and the time step (dt).
 %
-%   [t, dt] = SimulationTime(t_initial, t_final, total_samples)
+%   SIMULATIONTIME(t_initial, t_final, total_samples) receives the total
+%   samples as last parameters, i.e. the length - 1 of the time array.
 %
-%   [t, dt] = SimulationTime(t_initial, t_final, dt)
+%   SIMULATIONTIME(t_initial, t_final, dt) receives the time step between
+%   two consecutive elements of the t array.
 %
 %   If samples is greater than unit, it is considered as the total number
 %   of samples. If it is less than unit, it is considered as the time step

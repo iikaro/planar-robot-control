@@ -28,13 +28,13 @@ angle = 30*pi/180;
 wall = sin(angle)*L;
 
 % Impedance Control
-K_imp = 20;
-B_imp = 1;
+K_d = 20;
+B_d = 1;
 
 % PID Force Control Gains
-Kp = 100;
-Kd = 0.5;
-Ki = 0;
+k_p = 100;
+k_d = 0.5;
+k_i = 0;
 
 % Simulation
 for i = 1 : length(t) - 1
