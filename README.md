@@ -24,7 +24,7 @@ C: Coriolis forces\
 F: Friction forces\
 G: Gravity forces
 
-To simpler planar models, these matrices are intuitive and easy to calculate means of Newton's equilibrium equations or by the Lagrage method.
+To simpler planar models, these matrices are intuitive and easy to calculate means of Newton's equilibrium equations or by the Lagrange method.
 
 ## Environment model
 Here, the environment with which the robot interacts is modeled as a lumped-element system consisting of a damping and a stiffness (B<sub>env</sub> and K<sub>env</sub>).
@@ -91,11 +91,15 @@ Whereas if you want to follow a desired trajectory in space (X,Y,Z) coordinates,
 
 Performance restrictions, application, etc. may also lead you to approach the problem one way or another.
 
+## Impedance and Admittance in Practice!
+### Virtual springs... everywhere!
+Commonly, if you are using impedance in your outer-loop, there will be a virtual second-order system between the robot and the desired trajectory, which will generate a force/torque whenever the robot deviates from the reference. It is as if there were virtual springs and dampers attaching the robot to the trajectory.
+
+### Wait there is a god-damnned wall here! Let me fix your reference so you do not go any further...
+Usually, if you are using admittance in your outer-loop, you are generating a trajectory correction for your reference whenever a force is sensed. By doing this you prevent that the robot penetrates further into something that is blocking its way, which can cause damage to whatever is blocking it as well as to the robot.
+
 ## One degree-of-freedom
 ![imp-1dof-rot](https://github.com/iikaro/planar-robot-control/blob/master/drawings/imp-1dof/imp-1dof-joint.png)
-
-### Impedance
-
 
 ## References
 SICILIANO, B.; KHATIB, O. Springer Handbook of Robotics. 1st edition. Springer-Verlag Berlin Heidelberg, 2008. 1611 p.\
