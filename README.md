@@ -1,6 +1,6 @@
 # MATLAB Control of Planar Robots
 MATLAB scripts to implement common control techniques on planar robots.
-
+<!---
 1. 1-DoF
    1. Impedance
       1. Joint
@@ -15,14 +15,14 @@ MATLAB scripts to implement common control techniques on planar robots.
    2. Admittance
       1. Joint
       2. Task
-      
+     ---> 
 ## Robot model
 The robot dynamics (Siciliano and Khatib, 2008) are described by the following matrices:
 
 H: Inertia\
 C: Coriolis forces\
 F: Friction forces\
-G: Gravity forces (weight)
+G: Gravity forces
 
 To simpler planar models, these matrices are intuitive and easy to calculate means of Newton's equilibrium equations or by the Lagrage method.
 
@@ -50,16 +50,38 @@ In the case the robot interacts with the environment, both loops are active.\
 The <i>reason d'être</i> of the outer loop is to change the robot reference, which is input in the inner loop.
    
 ### Inner Control Loop
-   The inner controller is a Proportional-Derivative-Integrative (PID). There are instances in which it is simplied to simpler forms by tuning one of the gains to zero.
+   The inner controller is a Proportional-Derivative-Integrative (PID). There are instances in which it is simplified to simpler forms by tuning one of the gains to zero.\
+   With respect to the <b>admittance scheme</b>, the inner controller is a <b>position controller</b>.\
+   With respect to the <b>impedance scheme</b>, the inner controller is a <b>force controller</b>.
    
 ### Outer Control Loop
-   The outer controller is of Impedance (or Admittance) type (HOGAN, 1985).
+   The outer controller models the interaction of the robot with the environment. It is either of impedance (Z) or admittance (Y) type (HOGAN, 1985).\
+   Both schemes models the interaction in order to achieve the behavior of a second-order system described by a desired inertia M<sub>d</sub>, damping B<sub>d</sub> and stiffness K<sub>d</sub>.
+   With regards to the impedance controller, it generates a force output (F) as a displacement error (x) is sensed:
    
+   Z = M<sub>d</sub>xs<sup>2</sup> + B<sub>d</sub>xs + Kx
+   
+   With regards to the admittance controller, it generates a displacement (x) as a force error (F) is sensed:
+   
+   Y = (M<sub>d</sub>xs<sup>2</sup> + B<sub>d</sub>xs + Kx)<sup>-1</sup> = Z<sup>-1</sup>
+   
+   It is said that impedance and admittance form a dual relationship.
+   
+## Task Space
+In task space, the interaction of the robot with the environment is represented by linear quantities, i.e. forces and vertical/horizontal displacements. It is as if the robot was moving around and, suddenly, something blocked its end-effector, for instance a wall or any other obstacle.
+
+Thus, the environment offers resistance to robot displacement over X and Y directions, but the robot can rotate its joints freely (as long as the X and Y position of the end-effector do not change).
+
+## Joint Space
+In joint space, the interaction of the robot with the environment manifests as angular quantities, i.e. torques and angular displacements. It is as if the robot had the movement of its joints constrained to certain values (similarly to the human joints), or as if the joints themselves had some sort of damping within its bearings.
+
+Thus, the environment offers resistance to robot displacement performed by its joints. This restriction may occur only to certain values of displacement (again, similarly to human joints) or over the whole range of values of the joint.
+
 ## One degree-of-freedom
 ![imp-1dof-rot](https://github.com/iikaro/planar-robot-control/blob/master/drawings/imp-1dof/imp-1dof-joint.png)
 
-A robot interaction with the environment can be modeled with a lumped-element system.
-Here, the
+### Impedance
+
 
 ## References
 SICILIANO, B.; KHATIB, O. Springer Handbook of Robotics. 1st edition. Springer-Verlag Berlin Heidelberg, 2008. 1611 p.\
