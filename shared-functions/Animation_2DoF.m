@@ -1,5 +1,5 @@
 O = [0 0];  %origin
-
+L = l;
 % Plot a circle at the origin
 rc = 0.01;
 th = 0:pi/50:2*pi;
@@ -22,14 +22,14 @@ for i = 1 : length(t)
         grid on
         hold off
         delete(findall(gcf,'type','annotation'));
-        r = rectangle('Position',[0.5 -2 1.5 4]');
+        r = rectangle('Position',[x_w(1) -2 (x_w(1) + 1) 4]');
         r.FaceColor = [.01 .01 .01 0.05];
         r.EdgeColor = 'None';
         r.LineStyle = 'None';
-        vline(0.5, 'k', 'Environment');
+        vline(x_w(1), 'k', 'Environment');
         dim = [0.3, 0.7, 0.1, 0.1];
         offset = q_v(2,i)*180/pi;
-        penetration = (x_w - x(1,i))*1000;
+        penetration = (x_w(1) - x(1,i))*1000;
         if(penetration > 0)
             penetration = 0;
         end
