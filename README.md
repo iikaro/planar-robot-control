@@ -30,18 +30,18 @@ F<sub>ext</sub>: External forces\
 T<sub>a</sub>: Actuator forces
 
 To simpler planar models, these matrices are intuitive and easy to calculate means of Newton's equilibrium equations or by the Lagrange method.
-
+The figure below shows the model of three planar robots with, respectively, one, two and three degrees-of-freedom. These planar robots are intended to represent the model of a lower-limbs exoskeleton.
 ![robot-model](https://github.com/iikaro/planar-robot-control/blob/master/drawings/robot-model.png)
 
 ## Environment model
 Here, the environment with which the robot interacts is modeled as a lumped-element system consisting of a damping and a stiffness (B<sub>env</sub> and K<sub>env</sub>).
 
-Here, the environments are divided into two types: 
-1. <b>Stiff</b> environments, in the sense that the environment is something that, to a certain extent, holds its own shape and interacts with the robot through its end-effector.
-2. <b>Soft</b> (or fluid) environments, in the sense that the environment surrounds the robot (i.e. it does not have a particular object shape), opposing to different degrees to the robot's movement. In this case, the interaction is rather assumed to occur at joint level only.
+The environments are divided into two types: 
+1. <b>Stiff</b> environments, in the sense that the environment is something that, to a certain extent, holds its own shape and interacts with the robot through its end-effector. The interaction, thus, takes place at task-level, inevitably. The environment can be considered a holonomic constraint.
+2. <b>Soft</b> (or fluid) environments, in the sense that the environment surrounds the robot (i.e. it does not have a particular object shape), opposing to different degrees to the robot's movement. In this case, the interaction is rather assumed to occur at joint level only. The environment can be considered a nonholonomic constraint.
 
 ## Force sensor model (optional)
-Here, the dynamics of the force sensor are neglected. In case they are considered, they can be modeled as the environment (i.e. with lumped-elements, B<sub>fs</sub> and K<sub>fs</sub>) and placed in series between the robot end-effector and the environment.
+The dynamics of the force sensor are neglected. In case they are considered, they can be modeled as the environment (i.e. with lumped-elements, B<sub>fs</sub> and K<sub>fs</sub>) and placed in series between the robot end-effector and the environment.
 
 Force sensors are usually modeled as pure-stiffness elements. The resulting interaction force, in the case a force sensor is present, and in the case K<sub>env</sub> >>> and K<sub>fs</sub>, would be the force sensor stiffness (K<sub>int</sub>) times the force sensor displacement.
 
