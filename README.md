@@ -31,6 +31,8 @@ T<sub>a</sub>: Actuator forces
 
 To simpler planar models, these matrices are intuitive and easy to calculate means of Newton's equilibrium equations or by the Lagrange method.
 
+![robot-model](https://github.com/iikaro/planar-robot-control/blob/master/drawings/robot-model.png)
+
 ## Environment model
 Here, the environment with which the robot interacts is modeled as a lumped-element system consisting of a damping and a stiffness (B<sub>env</sub> and K<sub>env</sub>).
 
