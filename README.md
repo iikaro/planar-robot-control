@@ -38,8 +38,10 @@ Here, the environment with which the robot interacts is modeled as a lumped-elem
 
 The environments are divided into two types: 
 1. <b>Stiff</b> environments, in the sense that the environment is something that, to a certain extent, holds its own shape and interacts with the robot through its end-effector. The interaction, thus, takes place at task-level, inevitably. The environment can be considered a holonomic constraint.
+
 2. <b>Soft</b> (or fluid) environments, in the sense that the environment surrounds the robot (i.e. it does not have a particular object shape), opposing to different degrees to the robot's movement. In this case, the interaction is rather assumed to occur at joint level only. The environment can be considered a nonholonomic constraint.
 
+![stiff-environment](https://github.com/iikaro/planar-robot-control/blob/master/drawings/stiff-environment.png)
 ## Force sensor model (optional)
 The dynamics of the force sensor are neglected. In case they are considered, they can be modeled as the environment (i.e. with lumped-elements, B<sub>fs</sub> and K<sub>fs</sub>) and placed in series between the robot end-effector and the environment.
 
