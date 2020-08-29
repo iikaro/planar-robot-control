@@ -4,5 +4,7 @@ function value = Saturation(current, maximum, minimum)
 %   the current value to be analyzed and its saturation limits.
 
 %   value = Saturation(current, maximum, minimum)
-value = min(maximum, max(minimum, current));
+for i = 1:length(current)
+    value(i,:) = min(maximum(i,:), max(minimum(i,:), current(i,:)));
+end
 end
