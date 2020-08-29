@@ -1,54 +1,120 @@
-
-%% Robot and desired trajectories
-%figure('Name','Robot and desired trajectories')
+% Robot and desired trajectories
 
 subplot(3,1,1)
-plot(t,q_m(1,:),'b',t,q_d(1,:),'--b',t,q_m(2,:),'r',t,q_d(2,:),'--r')
+plot(t,q(1,:),'b',t,q_d(1,:),'--b',t,q(2,:),'r',t,q_d(2,:),'--r')
 title('Position')
-legend('Measured Joint 1','Desired Joint 1','Measured Joint 2','Desired Joint 2','Location','South','Orientation','Horizontal')
+legend('Measured Joint 1','Desired Joint 1','Measured Joint 2','Desired Joint 2','Location','Best','Orientation','Horizontal')
 grid on
 axis tight
 set(gca, 'FontName', 'CMU Serif')
 %saveas(gcf,'qm_qd','svg')
 hold on
 
-fc = 100;
-fs = 1/dt;
-%[b,a] = butter(6,fc/(fs/2));
-
-%q_v_f = filter(b,a,q_v);
-
-windowSize = 5; 
-b = (1/windowSize)*ones(1,windowSize);
-a = 1;
-
-q_v_f = filter(b,a,q_v);
-
-subplot(3,1,2)
-plot(t,q_v_f(1,:),'b',t,q_v_f(2,:),'r')
-title('Displacement')
-legend('Offset Joint 1','Offset Joint 2','Location','South','Orientation','Horizontal')
-ylabel('Displacement (rad)')
+if(isTaskSpace)
+    if (isImpedance)
+        subplot(3,1,2)
+        plot(t,F_r(1,:),'b',t,F_r(2,:),'r')
+        title('Impedance Force')
+        legend('X-axis','Y-axis','Location','Best','Orientation','Horizontal')
+        ylabel('External Force (N)')
+        grid on
+        axis tight
+        set(gca, 'FontName', 'CMU Serif')
+        hold on
+    else
+        subplot(3,1,2)
+        subplot(3,1,2)
+        plot(t,q_v(1,:),'b',t,q_v(2,:),'r')
+        title('Displacement')
+        legend('Offset Joint 1','Offset Joint 2','Location','Best','Orientation','Horizontal')
+        ylabel('Displacement (rad)')
+        grid on
+        axis tight
+        set(gca, 'FontName', 'CMU Serif')
+        hold on
+    end
+    subplot(3,1,3)
+    plot(t,F_error(1,:),'b',t,F_error(2,:),'r')
+    title('Force error (interaction torque)')
+    legend('X-axis','Y-axis','Location','Best','Orientation','Horizontal')
+    ylabel('Force (N)')
+    grid on
+    axis tight
+    set(gca, 'FontName', 'CMU Serif')
+    hold on
+else
+    subplot(3,1,2)
+    plot(t,F_ext(1,:),'b',t,F_ext(2,:),'r')
+    title('External Force (interaction force)')
+    legend('Joint 1','Joint 2','Location','Best','Orientation','Horizontal')
+    xlabel('Time (s)')
+    ylabel('Force (N)')
+    grid on
+    axis tight
+    set(gca, 'FontName', 'CMU Serif')
+    hold on
+    
+    subplot(3,1,3)
+    plot(t,T_error(1,:),'b',t,T_error(2,:),'r')
+    title('Torque error (interaction torque)')
+    legend('Joint 1','Joint 2','Location','Best','Orientation','Horizontal')
+    xlabel('Time (s)')
+    ylabel('Torque (Nm)')
+    grid on
+    axis tight
+    set(gca, 'FontName', 'CMU Serif')
+    hold on
+end
+%%
+figure
+subplot(2,1,1)
+plot(t,T_a(1,:),'b')
+title('Actuator effort')
+ylabel('Torque (Nm)')
 grid on
-axis tight
 set(gca, 'FontName', 'CMU Serif')
+legend('Joint 1','Location','Best','Orientation','Horizontal')
 hold on
 
-subplot(3,1,3)
-plot(t,F_error(1,:),'b',t,F_error(2,:),'r')
-title('Force error (interaction force)')
-legend('Force Error X-axis','Force Error Y-axis','Location','South','Orientation','Horizontal')
-xlabel('Time (s)')
-ylabel('Force (N)')
+subplot(2,1,2)
+plot(t,T_a(2,:),'r')
+ylabel('Torque (Nm)')
 grid on
-axis tight
+legend('Joint 2','Location','Best','Orientation','Horizontal')
+
+dim = [0.3, 0.1, 0.1, 0.1];
+str=sprintf('Torque RMS = %.2f Nm',rms(T_a(2,:))); %if No floting varibale number, use %d
+annotation('textbox',dim,'String',str,'BackgroundColor','w','FitBoxToText','on','fontsize',10,'FontName', 'CMU Serif');
+drawnow;
 set(gca, 'FontName', 'CMU Serif')
 hold on
 %saveas(gcf,'q_m_d_q_v_f_error','svg')
 %%
+figure
+subplot(2,1,1)
+plot(t,y_d,'b',t,y,'r')
+title('End-effector trajectory')
+ylabel('y (m)')
+grid on
+set(gca, 'FontName', 'CMU Serif')
+legend('Desired trajectory','Measured trajectory','Location', 'Best','Orientation','Horizontal')
+hold on
+
+subplot(2,1,2)
+plot(t,x_d,'b',t,x,'r')
+xlabel('Time (s)')
+ylabel('x (m)')
+grid on
+set(gca, 'FontName', 'CMU Serif')
+hold on
+hline(0.5,':b')
+%saveas(gcf,'X_d_X_m','svg')
+%%
+
+%%
 %{
 figure
-plot(x_d,y_d,'b',x_m,y_m,'r')
+plot(x_d,y_d,'b',x,y,'r')
 title('End-effector trajectory')
 legend('Desired trajectory','Measured trajectory','Location','Northwest')
 xlabel('x (m)')
@@ -63,29 +129,6 @@ grid on
 set(gca, 'FontName', 'CMU Serif')
 saveas(gcf,'qm_qd','svg')
 %}
-%%
-%figure
-figure
-subplot(2,1,1)
-plot(t,y_d,'b',t,y_m,'r')
-
-title('End-effector trajectory')
-%legend('Desired trajectory','Measured trajectory','Location','Northwest')
-ylabel('y (m)')
-grid on
-set(gca, 'FontName', 'CMU Serif')
-hold on
-
-subplot(2,1,2)
-plot(t,x_d,'b',t,x_m,'r')
-legend('Desired trajectory','Measured trajectory','Location', 'North','Orientation','Horizontal')
-xlabel('Time (s)')
-ylabel('x (m)')
-grid on
-set(gca, 'FontName', 'CMU Serif')
-hold on
-hline(0.5,':b')
-%saveas(gcf,'X_d_X_m','svg')
 %% Robot trajectory and external force (same plot)
 %{
 figure('Name','Robot trajectory and external force (same plot)')
