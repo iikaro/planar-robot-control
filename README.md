@@ -17,12 +17,17 @@ MATLAB scripts to implement common control techniques on planar robots.
       2. Task
      ---> 
 ## Robot model
-The robot dynamics (Siciliano and Khatib, 2008) are described by the following matrices:
+A robotic device moves around and the configuration (i.e. state) of its degrees-of-freedom (i.e. joints) is described by what is called state-vector or state-variables, denoted by <b>q</b>.
+The state of the robot varies as environment/external forces are applied to it, such as friction, gravity, as well as the force of its own actuators.
+Once all these effects are considered, a set of equations are obtained, usually one per degree-of-freedom.
+If one organizes the equation terms according to their physical meaning, as well as their dependence on <b>q</b> and its derivatives, therefore the robot dynamics are described by the following matrices for example (Siciliano and Khatib, 2008):
 
 H: Inertia\
 C: Coriolis forces\
-F: Friction forces\
-G: Gravity forces
+F<sub>c</sub>, F<sub>v</sub>: Friction forces (Coulomb and viscous)\
+G: Gravity forces\
+F<sub>ext</sub>: External forces\
+T<sub>a</sub>: Actuator forces
 
 To simpler planar models, these matrices are intuitive and easy to calculate means of Newton's equilibrium equations or by the Lagrange method.
 
