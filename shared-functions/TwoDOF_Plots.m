@@ -1,18 +1,36 @@
 % Robot and desired trajectories
-
-subplot(3,1,1)
-plot(t,q(1,:),'b',t,q_d(1,:),'--b',t,q(2,:),'r',t,q_d(2,:),'--r')
-title('Position')
-legend('Measured Joint 1','Desired Joint 1','Measured Joint 2','Desired Joint 2','Location','Best','Orientation','Horizontal')
+figure
+subplot(2,1,1)
+plot(t,q(1,:),'b',t,q_d(1,:),'--b')
+title('Joint displacements')
+legend('Measured Joint 1','Desired Joint 1','Location','Best','Orientation','Horizontal')
 grid on
 axis tight
 set(gca, 'FontName', 'CMU Serif')
-%saveas(gcf,'qm_qd','svg')
+hold on
+
+subplot(2,1,2)
+plot(t,q(2,:),'r',t,q_d(2,:),'--r')
+legend('Measured Joint 2','Desired Joint 2','Location','Best','Orientation','Horizontal')
+grid on
+axis tight
+set(gca, 'FontName', 'CMU Serif')
+hold on
+
+figure
+subplot(3 - isImpedance*isTaskSpace,1,1)
+plot(t,F_ext(1,:),'b',t,F_ext(2,:),'r')
+title('External Force (interaction force)')
+legend('X-axis','Y-axis','Location','Best','Orientation','Horizontal')
+ylabel('Force (N)')
+grid on
+axis tight
+set(gca, 'FontName', 'CMU Serif')
 hold on
 
 if(isTaskSpace)
     if (isImpedance)
-        subplot(3,1,2)
+        subplot(3 - isImpedance,1,2)
         plot(t,F_r(1,:),'b',t,F_r(2,:),'r')
         title('Impedance Force')
         legend('X-axis','Y-axis','Location','Best','Orientation','Horizontal')
@@ -23,9 +41,18 @@ if(isTaskSpace)
         hold on
     else
         subplot(3,1,2)
-        subplot(3,1,2)
+        plot(t,x_v(1,:),'b',t,x_v(2,:),'r')
+        title('Offset Displacement')
+        legend('X-axis','Y-axis','Location','Best','Orientation','Horizontal')
+        ylabel('Displacement (m)')
+        grid on
+        axis tight
+        set(gca, 'FontName', 'CMU Serif')
+        hold on
+        
+        subplot(3,1,3)
         plot(t,q_v(1,:),'b',t,q_v(2,:),'r')
-        title('Displacement')
+        title('Inverse Kinematics')
         legend('Offset Joint 1','Offset Joint 2','Location','Best','Orientation','Horizontal')
         ylabel('Displacement (rad)')
         grid on
@@ -33,38 +60,29 @@ if(isTaskSpace)
         set(gca, 'FontName', 'CMU Serif')
         hold on
     end
-    subplot(3,1,3)
-    plot(t,F_error(1,:),'b',t,F_error(2,:),'r')
-    title('Force error (interaction torque)')
-    legend('X-axis','Y-axis','Location','Best','Orientation','Horizontal')
-    ylabel('Force (N)')
-    grid on
-    axis tight
-    set(gca, 'FontName', 'CMU Serif')
-    hold on
 else
     subplot(3,1,2)
-    plot(t,F_ext(1,:),'b',t,F_ext(2,:),'r')
-    title('External Force (interaction force)')
+    plot(t,T_error(1,:),'b',t,T_error(2,:),'r')
+    title('Torque Error (interaction torque)')
     legend('Joint 1','Joint 2','Location','Best','Orientation','Horizontal')
-    xlabel('Time (s)')
-    ylabel('Force (N)')
+    ylabel('Torque (Nm)')
     grid on
     axis tight
     set(gca, 'FontName', 'CMU Serif')
     hold on
     
     subplot(3,1,3)
-    plot(t,T_error(1,:),'b',t,T_error(2,:),'r')
-    title('Torque error (interaction torque)')
-    legend('Joint 1','Joint 2','Location','Best','Orientation','Horizontal')
-    xlabel('Time (s)')
-    ylabel('Torque (Nm)')
+    plot(t,q_v(1,:),'b',t,q_v(2,:),'r')
+    title('Inverse Kinematics')
+    legend('Offset Joint 1','Offset Joint 2','Location','Best','Orientation','Horizontal')
+    ylabel('Displacement (rad)')
     grid on
+    xlabel('Time (s)')
     axis tight
     set(gca, 'FontName', 'CMU Serif')
     hold on
 end
+
 %%
 figure
 subplot(2,1,1)
@@ -107,7 +125,7 @@ ylabel('x (m)')
 grid on
 set(gca, 'FontName', 'CMU Serif')
 hold on
-hline(0.5,':b')
+hline(x_w(1),':b')
 %saveas(gcf,'X_d_X_m','svg')
 %%
 
