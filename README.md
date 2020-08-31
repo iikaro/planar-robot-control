@@ -68,7 +68,7 @@ The <i>reason d'être</i> of the outer loop is to change the robot reference, wh
    
 ### Outer Control Loop
    The outer controller models the interaction of the robot with the environment. It is either of impedance (Z) or admittance (Y) type (HOGAN, 1985).\
-   Both schemes models the interaction in order to achieve the behavior of a second-order system described by a desired inertia M<sub>d</sub>, damping B<sub>d</sub> and stiffness K<sub>d</sub>.
+   Both schemes model the interaction in order to achieve the behavior of a second-order system described by a desired inertia M<sub>d</sub>, damping B<sub>d</sub> and stiffness K<sub>d</sub>.
    With regards to the impedance controller, it generates a force output (F) as a displacement error (x) is sensed:
    
    Z = M<sub>d</sub>xs<sup>2</sup> + B<sub>d</sub>xs + Kx
@@ -114,9 +114,11 @@ Usually, if you are using admittance in your outer-loop, you are generating a tr
 ![imp-1dof-rot](https://github.com/iikaro/planar-robot-control/blob/master/drawings/imp-1dof/imp-1dof-joint.png)
 
 ## References
+
 SICILIANO, B.; KHATIB, O. Springer Handbook of Robotics. 1st edition. Springer-Verlag Berlin Heidelberg, 2008. 1611 p.\
 HOGAN, N. Impedance Control: An Approach to Manipulation: Parts I, II and III. Journal of Dynamic Systems, Measurement, and Control, v. 107, n. 1, p. 1–24,03 1985. ISSN 0022-0434.
 
 ## Supporting MATLAB Scripts
-Here I provide a list of supporting MATLAB scripts which were not written by me. However, I may have made a few changes and adaptations to their original scripts (very few I'd say) so I'd recommed people to always refer to the scripts on this repository rather than the ones from MATLAB page.\
+Here I provide a list of supporting MATLAB scripts which were not written by me. However, I may have made a few changes and adaptations to their original scripts (very few I'd say) so I'd recommed people to always refer to the scripts on this repository rather than the ones from MATLAB page.
+
 Brandon Kuczenski (2020). hline and vline (https://www.mathworks.com/matlabcentral/fileexchange/1039-hline-and-vline), MATLAB Central File Exchange. Retrieved August 22, 2020. 
