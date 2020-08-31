@@ -39,9 +39,12 @@ Here, the environment with which the robot interacts is modeled as a lumped-elem
 The environments are divided into two types: 
 1. <b>Stiff</b> environments, in the sense that the environment is something that, to a certain extent, holds its own shape and interacts with the robot through its end-effector. The interaction, thus, takes place at task-level, inevitably. The environment can be considered a holonomic constraint.
 
+![stiff-environment](https://github.com/iikaro/planar-robot-control/blob/master/drawings/stiff-environment.png)
+
 2. <b>Soft</b> (or fluid) environments, in the sense that the environment surrounds the robot (i.e. it does not have a particular object shape), opposing to different degrees to the robot's movement. In this case, the interaction is rather assumed to occur at joint level only. The environment can be considered a nonholonomic constraint.
 
-![stiff-environment](https://github.com/iikaro/planar-robot-control/blob/master/drawings/stiff-environment.png)
+![soft-environment](https://github.com/iikaro/planar-robot-control/blob/master/drawings/soft-environment.png)
+
 ## Force sensor model (optional)
 The dynamics of the force sensor are neglected. In case they are considered, they can be modeled as the environment (i.e. with lumped-elements, B<sub>fs</sub> and K<sub>fs</sub>) and placed in series between the robot end-effector and the environment.
 
@@ -65,7 +68,7 @@ The <i>reason d'être</i> of the outer loop is to change the robot reference, wh
    
 ### Outer Control Loop
    The outer controller models the interaction of the robot with the environment. It is either of impedance (Z) or admittance (Y) type (HOGAN, 1985).\
-   Both schemes models the interaction in order to achieve the behavior of a second-order system described by a desired inertia M<sub>d</sub>, damping B<sub>d</sub> and stiffness K<sub>d</sub>.
+   Both schemes model the interaction in order to achieve the behavior of a second-order system described by a desired inertia M<sub>d</sub>, damping B<sub>d</sub> and stiffness K<sub>d</sub>.
    With regards to the impedance controller, it generates a force output (F) as a displacement error (x) is sensed:
    
    Z = M<sub>d</sub>xs<sup>2</sup> + B<sub>d</sub>xs + Kx
@@ -107,13 +110,12 @@ Commonly, if you are using impedance in your outer-loop, there will be a virtual
 ### Wait there is a god-damnned wall here! Let me fix your reference so you do not go any further...
 Usually, if you are using admittance in your outer-loop, you are generating a trajectory correction for your reference whenever a force is sensed. By doing this you prevent that the robot penetrates further into something that is blocking its way, which can cause damage to whatever is blocking it as well as to the robot.
 
-## One degree-of-freedom
-![imp-1dof-rot](https://github.com/iikaro/planar-robot-control/blob/master/drawings/imp-1dof/imp-1dof-joint.png)
-
 ## References
+
 SICILIANO, B.; KHATIB, O. Springer Handbook of Robotics. 1st edition. Springer-Verlag Berlin Heidelberg, 2008. 1611 p.\
 HOGAN, N. Impedance Control: An Approach to Manipulation: Parts I, II and III. Journal of Dynamic Systems, Measurement, and Control, v. 107, n. 1, p. 1–24,03 1985. ISSN 0022-0434.
 
 ## Supporting MATLAB Scripts
-Here I provide a list of supporting MATLAB scripts which were not written by me. However, I may have made a few changes and adaptations to their original scripts (very few I'd say) so I'd recommed people to always refer to the scripts on this repository rather than the ones from MATLAB page.\
+Here I provide a list of supporting MATLAB scripts which were not written by me. However, I may have made a few changes and adaptations to their original scripts (very few I'd say) so I'd recommed people to always refer to the scripts on this repository rather than the ones from MATLAB page.
+
 Brandon Kuczenski (2020). hline and vline (https://www.mathworks.com/matlabcentral/fileexchange/1039-hline-and-vline), MATLAB Central File Exchange. Retrieved August 22, 2020. 
