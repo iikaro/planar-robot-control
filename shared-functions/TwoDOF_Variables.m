@@ -52,6 +52,14 @@ dx_v = zeros(2, length(t));
 % Model parameters
 m = [10, 5];
 l = [0.5, 0.5];
-torque_max = [26.378838; 26.378838];
-torque_min = -torque_max;
+
+gear_ratio = 150;       %dimensionless
+nominal_current = 3.17; %A
+nominal_torque = 187e-3;%N.m
+torque_cte = 60.3e-3;   %N.m/A
+eff = 0.92;             %dimensionless
+
+torque_max = nominal_current*torque_cte*eff*gear_ratio*ones(2,1); %N.m
+torque_min = -torque_max;	%N.m
+
 g = -9.81;
