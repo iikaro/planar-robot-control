@@ -72,7 +72,7 @@ The <i>reason d'être</i> of the outer loop is to change the robot reference, wh
    
    With regards to the admittance controller, it generates a displacement (x) as a force error (F) is sensed:
    
-   Y = (M<sub>d</sub>xs<sup>2</sup> + B<sub>d</sub>xs + Kx)<sup>-1</sup> = Z<sup>-1</sup>
+   Y = (M<sub>d</sub>xs<sup>2</sup> + B<sub>d</sub>xs + K<sub>d</sub>x)<sup>-1</sup> = Z<sup>-1</sup>
    
    It is said that impedance and admittance form a dual relationship.
    
@@ -88,17 +88,17 @@ In joint space, the interaction of the robot with the environment manifests as a
 Thus, the environment offers resistance the angular displacement performed by the joints of the robot. This restriction may occur only to certain values of displacement (again, similarly to human joints) or over the whole range of values of the joint.
 
 ### Which one is right?
-There is no right or wrong whatsoever. It depends solely on the application, the situation you are trying to model.\
+There is no right or wrong whatsoever. It depends solely on the application, the situation you are trying to model, as well as on the hardware available.\
 In case you are trying to model the interaction of a industrial robot (UR5 for instance) with the surrounding environment, so it does not hit walls blindly, and rather stops to prevent penetrating them, task space is more adequate.
 
-Now imagine the case you are trying to model a robotic arm which interacts with a fluid: the robotic arm attached to a submarine, for instance. The interaction with the environment occurs at joint level, that is, the environment generates resistive torques that preven the robot from moving accordingly. In this case, the joint space approach is more adequate.
+Now imagine the case you are trying to model a robotic arm which interacts with a fluid: the robotic arm attached to a submarine, for instance. The interaction with the environment occurs at joint level, that is, the environment (water) generates resistive torques that prevent the robot from moving freely. In this case, the joint space approach is more adequate.
 
-The same is applicable with respect not only to the interaction with respect to the environment (outer control loop) but also with respect to the inner-control loop as well.
+The same is true with respect not only to the interaction with respect to the environment (outer control loop) but also with respect to the inner-control loop as well.
 
 If you want to follow a desired joint trajectory or torque reference, joint space is your way to go.\
 Whereas if you want to follow a desired trajectory in space (X,Y,Z) coordinates, task space is what suits better.
 
-Performance restrictions, application, etc. may also lead you to approach the problem one way or another.
+Performance restrictions, hardware limitations, etc. may also lead you to approach the problem one way or another. Usually, whenever force sensing is present, specially in task-space control (when you control the joint position but rather sense the force at the end-effector, non-collocation problem), higher framerates (at least 1kHz) are necessary to ensure stability.
 
 ## Impedance and Admittance in Practice!
 ### Virtual springs... everywhere!
