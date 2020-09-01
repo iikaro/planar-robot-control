@@ -84,6 +84,11 @@ The <i>reason d'être</i> of the outer loop is to change the robot reference, wh
    Y = (M<sub>d</sub>xs<sup>2</sup> + B<sub>d</sub>xs + K<sub>d</sub>x)<sup>-1</sup> = Z<sup>-1</sup>
    
    It is said that impedance and admittance form a dual relationship.
+   
+### Which one is better?
+
+Impedance and admittance schemes have their intrinsic advantages and disadvantages. The figure below, drawn based on (Ott et. al, 2010) provides a meaningful insight on their main difference.
+
 ## Block Diagram for Linear System
    Below the block diagrams for the admittance and the impedance schemes can be seen, respectively. Both refer to a linear system. In case rotational joints are present, one or more of the following operations must be considered in the block diagrams: forward kinematics, inverse kinematics, Jacobian (or its transpose/inverse).
    
@@ -124,8 +129,9 @@ Usually, if you are using admittance in your outer-loop, you are generating a tr
 
 ## References
 
-SICILIANO, B.; KHATIB, O. Springer Handbook of Robotics. 1st edition. Springer-Verlag Berlin Heidelberg, 2008. 1611 p.\
-HOGAN, N. Impedance Control: An Approach to Manipulation: Parts I, II and III. Journal of Dynamic Systems, Measurement, and Control, v. 107, n. 1, p. 1–24,03 1985. ISSN 0022-0434.
+Siciliano, B.; Khatib, O. Springer Handbook of Robotics. 1st edition. Springer-Verlag Berlin Heidelberg, 2008. 1611 p.\
+Hogan, N. Impedance Control: An Approach to Manipulation: Parts I, II and III. Journal of Dynamic Systems, Measurement, and Control, v. 107, n. 1, p. 1–24,03 1985. ISSN 0022-0434.\
+C. Ott, R. Mukherjee and Y. Nakamura, "Unified Impedance and Admittance Control," 2010 IEEE International Conference on Robotics and Automation, Anchorage, AK, 2010, pp. 554-561, doi: 10.1109/ROBOT.2010.5509861.
 
 ## Supporting MATLAB Scripts
 Here I provide a list of supporting MATLAB scripts which were not written by me. However, I may have made a few changes and adaptations to their original scripts (very few I'd say) so I'd recommed people to always refer to the scripts on this repository rather than the ones from MATLAB page.
