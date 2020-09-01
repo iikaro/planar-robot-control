@@ -1,5 +1,10 @@
 # MATLAB Control of Planar Robots
 MATLAB scripts to implement common control techniques on planar robots.
+
+Thus far, these scripts apply for the following model of planar robot:
+* One- to two-degrees-of-freedom planar robots, intended to model modular wearable lower-limbs exoskeleton devices.
+* Due to hardware limitations, only the second joint is actuated with respect to 2-degrees-of-freedom model.
+* Three-degrees-of-freedom models are still under development.
 <!---
 1. 1-DoF
    1. Impedance
