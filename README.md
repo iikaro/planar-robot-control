@@ -89,7 +89,7 @@ The <i>reason d'être</i> of the outer loop is to change the robot reference, wh
 
 Impedance and admittance schemes have their intrinsic advantages and disadvantages. The figure below, drawn based on (Ott et. al, 2010) provides a meaningful insight on their main difference.
 
-<img src="https://github.com/iikaro/planar-robot-control/blob/master/drawings/imp-vs-adm.png" alt="imp-vs-adm" width="75%"/>
+<img src="https://github.com/iikaro/planar-robot-control/blob/master/drawings/imp-vs-adm.png" alt="imp-vs-adm" width="40%"/>
 
 ## Block Diagram for Linear System
    Below the block diagrams for the admittance and the impedance schemes can be seen, respectively. Both refer to a linear system. In case rotational joints are present, one or more of the following operations must be considered in the block diagrams: forward kinematics, inverse kinematics, Jacobian (or its transpose/inverse).
