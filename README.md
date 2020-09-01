@@ -83,7 +83,13 @@ The <i>reason d'être</i> of the outer loop is to change the robot reference, wh
    Y = (M<sub>d</sub>xs<sup>2</sup> + B<sub>d</sub>xs + K<sub>d</sub>x)<sup>-1</sup> = Z<sup>-1</sup>
    
    It is said that impedance and admittance form a dual relationship.
+## Block Diagram for Linear System
+   Below the block diagrams for the admittance and the impedance schemes can be seen, respectively. Both refer to a linear system. In case rotational joints are present, one or more of the following operations must be considered in the block diagrams: forward kinematics, inverse kinematics, Jacobian (or its transpose/inverse).
    
+   ![adm-block-diagram](https://github.com/iikaro/planar-robot-control/blob/master/drawings/adm-block-diagram.png)
+   
+   ![imp-block-diagram](https://github.com/iikaro/planar-robot-control/blob/master/drawings/imp-block-diagram.png)
+
 ## Task Space and Joint Space
 ### Task Space
 In task space, the interaction of the robot with the environment is represented by linear quantities, i.e. forces and vertical/horizontal displacements. It is as if the robot was moving around and, suddenly, something blocked its end-effector, for instance a wall or any other obstacle.
