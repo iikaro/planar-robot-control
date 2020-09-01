@@ -36,7 +36,8 @@ T<sub>a</sub>: Actuator forces
 
 To simpler planar models, these matrices are intuitive and easy to calculate means of Newton's equilibrium equations or by the Lagrange method.
 The figure below shows the model of three planar robots with, respectively, one, two and three degrees-of-freedom. These planar robots are intended to represent the model of a lower-limbs exoskeleton.
-![robot-model](https://github.com/iikaro/planar-robot-control/blob/master/drawings/robot-model.png)
+
+<img src="https://github.com/iikaro/planar-robot-control/blob/master/drawings/robot-model.png" alt="robot-model" width="75%"/>
 
 ## Environment model
 Here, the environment with which the robot interacts is modeled as a lumped-element system consisting of a damping and a stiffness (B<sub>env</sub> and K<sub>env</sub>).
@@ -44,11 +45,11 @@ Here, the environment with which the robot interacts is modeled as a lumped-elem
 The environments are divided into two types: 
 1. <b>Stiff</b> environments, in the sense that the environment is something that, to a certain extent, holds its own shape and interacts with the robot through its end-effector. The interaction, thus, takes place at task-level, inevitably. The environment can be considered a holonomic constraint.
 
-![stiff-environment](https://github.com/iikaro/planar-robot-control/blob/master/drawings/stiff-environment.png)
+<img src="https://github.com/iikaro/planar-robot-control/blob/master/drawings/stiff-environment.png" alt="stiff-environment" width="40%"/>
 
 2. <b>Soft</b> (or fluid) environments, in the sense that the environment surrounds the robot (i.e. it does not have a particular object shape), opposing to different degrees to the robot's movement. In this case, the interaction is rather assumed to occur at joint level only. The environment can be considered a nonholonomic constraint.
 
-![soft-environment](https://github.com/iikaro/planar-robot-control/blob/master/drawings/soft-environment.png)
+<img src="https://github.com/iikaro/planar-robot-control/blob/master/drawings/soft-environment.png" alt="soft-environment" width="40%"/>
 
 ## Force sensor model (optional)
 The dynamics of the force sensor are neglected. In case they are considered, they can be modeled as the environment (i.e. with lumped-elements, B<sub>fs</sub> and K<sub>fs</sub>) and placed in series between the robot end-effector and the environment.
@@ -86,9 +87,9 @@ The <i>reason d'être</i> of the outer loop is to change the robot reference, wh
 ## Block Diagram for Linear System
    Below the block diagrams for the admittance and the impedance schemes can be seen, respectively. Both refer to a linear system. In case rotational joints are present, one or more of the following operations must be considered in the block diagrams: forward kinematics, inverse kinematics, Jacobian (or its transpose/inverse).
    
-   ![adm-block-diagram](https://github.com/iikaro/planar-robot-control/blob/master/drawings/adm-block-diagram.png)
+   <img src="https://github.com/iikaro/planar-robot-control/blob/master/drawings/adm-block-diagram.png" alt="adm-block-diagram" width="75%"/>
    
-   ![imp-block-diagram](https://github.com/iikaro/planar-robot-control/blob/master/drawings/imp-block-diagram.png)
+   <img src="https://github.com/iikaro/planar-robot-control/blob/master/drawings/imp-block-diagram.png" alt="imp-block-diagram" width="75%"/>
 
 ## Task Space and Joint Space
 ### Task Space
