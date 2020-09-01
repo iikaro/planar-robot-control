@@ -26,17 +26,17 @@ k_d = 50;
 k_i = 0;
 
 % Environment
-K_env = 5;
-B_env = 1;
+K_env = 1e3;
+B_env = 10;
 
 % Obstacle
 angle = 0.5;
 wall = L*sin(angle);
 
 % Admittance Control Parameters
-K_d = 1e3;             %N/rad
-B_d = 10;             %N.s/rad
-M_d = 0;             %%N.s^2/rad
+K_d = 10;             %N/rad
+B_d = 1;             %N.s/rad
+M_d = 0*0.01;             %%N.s^2/rad
 
 % Simulation
 for i = 1 : length(t) - 1
@@ -78,8 +78,14 @@ for i = 1 : length(t) - 1
     
     % Inverse Kinematics
     if (y > wall)
-        q_r(i) = asin((x_r(2,i) - y)/L); 
+        q_r(i) = asin((x_r(2,i))/L); 
     end
+    
+%     if i ~= 1
+%         q_r(i) = pinv(Jacobian)*x_r(:,i);
+%         q_r(i)
+%     end
+    
     
     % Inner position control loop
     q_error(i) = q_d(i) - q(i) + q_r(i);
@@ -90,11 +96,11 @@ for i = 1 : length(t) - 1
     end
     
     % Control signal (=~ torque)
-    tau_a(i) = k_p * q_error(i) + k_d * dq_error(i) + k_i * int_error(i) + (L/2)*m*g*cos(q(i));
-    tau_a(i) = Saturation(tau_a(i), torque_max, torque_min);
+    T_a(i) = k_p * q_error(i) + k_d * dq_error(i) + k_i * int_error(i) + (L/2)*m*g*cos(q(i));
+    T_a(i) = Saturation(T_a(i), torque_max, torque_min);
     
     % Outputs
-    ddq(i) = (1/J)*(tau_a(i) + tau_ext(i) - (L/2)*m*g*cos(q(i)) - B*dq(i) - K*q(i));
+    ddq(i) = (1/J)*(T_a(i) + tau_ext(i) - (L/2)*m*g*cos(q(i)) - B*dq(i) - K*q(i));
     dq(i + 1) = dq(i) + ddq(i)*dt;
     q(i + 1) = q(i) + dq(i)*dt + 0.5*ddq(i)*dt*dt;
     

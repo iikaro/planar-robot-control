@@ -75,11 +75,11 @@ for i = 1 : length(t) - 1
     end
     
     % Control signal
-    tau_a(i) = Jacobian'*(k_p * F_error(:,i) + k_d * dF_error(:,i) + k_i * F_int_error(:,i)) + (L/2)*m*g*cos(q(i));
-    tau_a(i) = Saturation(tau_a(i), torque_max, torque_min);
+    T_a(i) = Jacobian'*(k_p * F_error(:,i) + k_d * dF_error(:,i) + k_i * F_int_error(:,i)) + (L/2)*m*g*cos(q(i));
+    T_a(i) = Saturation(T_a(i), torque_max, torque_min);
 
     % Outputs
-    ddq(i) = (1/J)*(tau_a(i) - (L/2)*m*g*cos(q(i)) - B*dq(i) - K*q(i));
+    ddq(i) = (1/J)*(T_a(i) - (L/2)*m*g*cos(q(i)) - B*dq(i) - K*q(i));
     dq(i + 1) = dq(i) + ddq(i)*dt;
     q(i + 1) = q(i) + dq(i)*dt + 0.5*ddq(i)*dt*dt;
 end
