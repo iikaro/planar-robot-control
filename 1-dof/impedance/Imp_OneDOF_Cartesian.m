@@ -38,6 +38,7 @@ wall = [wall_x; wall_y];
 % Impedance Control
 K_d = diag([0, 1e3]);
 B_d = diag([0, 1e-1]);
+M_d = diag([1 1]);
 
 % PID Force Control Gains
 k_p = 100;
@@ -49,7 +50,13 @@ for i = 1 : length(t) - 1
     
     %Jacobian calculation
     Jacobian = JacobianMatrix(L,q(i),dof);
-            
+    
+    %Symbolic Jacobian
+    dJ = [-L*sin(q(i))*dq(i);
+           L*cos(q(i))*dq(i)];
+    
+    ddX(:,i) = Jacobian*ddq(i) + dJ*dq(i);
+    
     %End-effector variables
     [x, y] = L_forward(L,q(i),dof);
     X(:, i) = [x; y];
@@ -59,7 +66,7 @@ for i = 1 : length(t) - 1
     dy = dX(2,:);
     
     %Force reference based on error (Impedance Control Law)
-    F_r(:, i) = K_d*(X_d(:, i) - X(:, i)) - B_d*(dX(:, i));
+    F_r(:, i) = K_d*(X_d(:, i) - X(:, i)) - B_d*dX(:, i) - M_d*ddX(:,i);
     
     % Environment detection
     if(x > wall_x || y > wall_y)

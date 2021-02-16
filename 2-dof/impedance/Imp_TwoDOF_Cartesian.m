@@ -13,7 +13,7 @@ isTaskSpace = 1;
 
 % Play animation?
 play = 1;
-isBackdrivable = 0;
+isBackdrivable = 1;
 
 % Model parameters
 [t, dt] = SimulationTime(0,6,5e-3);
@@ -59,8 +59,8 @@ K_env = 1e4;  %N/m
 B_env = 10;   %N.s/m
 
 % Impedance controller parameters (stiff wall)
-K_d = 100*diag(2);	%N/m
-B_d = 10*diag(2);	%N.s/m
+K_d = 10*diag(2);	%N/m
+B_d = 5*diag(2);	%N.s/m
 M_d = 0*diag(2);	%N.s^2/m
 
 % PID Gains (300, 15, 0, without SEA)
@@ -95,6 +95,7 @@ for i = 1 : length(t) - 1
     if(x(i) > x_w)
         F_ext(:,i) = [K_env*(x(i) - x_w) + B_env*dX(2,i); 0];
         F_ext(2,i) = 0;
+        
         if F_ext(1,i) < 0
             F_ext(1,i) = 0;
         end
@@ -121,7 +122,7 @@ for i = 1 : length(t) - 1
     
     
     % PID Force control
-    F_error(:,i) = F_r(:,i) + F_d(:,i) - F_ext(:,i);
+    %F_error(:,i) = F_r(:,i) + F_d(:,i) - F_ext(:,i);
     F_error(:,i) = F_r(:,i) + F_d(:,i) - F_ext_filtered(:,i);
     
     if i ~= 1
@@ -133,9 +134,9 @@ for i = 1 : length(t) - 1
     
     T_a(:,i) = Jacobian' * k_p * F_error(:,i)  + Jacobian' * k_d * dF_error(:,i) + T_g(:, i);
     T_a(:, i) = Saturation( T_a(:, i), torque_max, torque_min);
-    %T_a(:,i) = Jacobian'*F_r(:,i);
+    
     % Simulation
-    ddq(:, i) = H\(T_d(:, i) + T_a(:,i) - C*dq(:, i) - G - F*dq(:, i)  - isBackdrivable*Jacobian'*F_ext_filtered(:,i));
+    ddq(:, i) = H\(T_d(:, i) + T_a(:,i) - C*dq(:, i) - G - F*dq(:, i) - isBackdrivable*Jacobian'*F_ext_filtered(:,i));
     dq(:, i + 1) = dq(:, i) + ddq(:, i)*dt;
     q(:, i + 1) = q(:, i) + dq(:, i)*dt + 0.5*ddq(:, i)*dt*dt;
     

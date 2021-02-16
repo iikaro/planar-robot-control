@@ -57,3 +57,4 @@ x = zeros(length(t),1);
 y = zeros(length(t),1);
 dx = zeros(length(t),1);
 dy = zeros(length(t),1);
+ddX = zeros(2,length(t));

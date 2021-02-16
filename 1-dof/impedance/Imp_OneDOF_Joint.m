@@ -6,7 +6,6 @@ Escola de Engenharia de São Carlos - Universidade de São Paulo
 %}
 clc;
 clear all;
-close all;
 addpath('..\..\shared-functions')
 
 % Play animation?
@@ -20,7 +19,7 @@ run('Variables_1DoF.m')
 q_d = 1*sin(pi*t)';
 
 % Environment
-K_env = 5e3;
+K_env = 0*5e3;
 B_env = 0;
 
 % Obstacle
@@ -30,17 +29,18 @@ wall = sin(angle)*L;
 % Impedance Control
 K_d = 200;
 B_d = 1;
+M_d = 0;
 
 % PID Force Control Gains
-k_p = 100;
+k_p = 5;
 k_d = 0.5;
 k_i = 0;
 
 % Simulation
-for i = 1 : length(t) - 1
+for i = 2 : length(t) - 1
     
     % Desired Torque (Impedance Control)
-    tau_r(i) = K_d*(q_d(i) - q(i)) - B_d*(dq(i));
+    tau_r(i) = K_d*(q_d(i) - q(i)) - B_d*(dq(i)) - M_d*ddq(i-1);
     
     % Environment Detection
     if(q(i) > angle)

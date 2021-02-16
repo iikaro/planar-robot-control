@@ -19,7 +19,7 @@ hold on
 
 figure
 subplot(3 - isImpedance*isTaskSpace,1,1)
-plot(t,F_ext(1,:),'b',t,F_ext(2,:),'r')
+plot(t,F_env(1,:),'b',t,F_env(2,:),'r')
 title('External Force (interaction force)')
 legend('X-axis','Y-axis','Location','Best','Orientation','Horizontal')
 ylabel('Force (N)')
@@ -31,7 +31,7 @@ hold on
 if(isTaskSpace)
     if (isImpedance)
         subplot(3 - isImpedance,1,2)
-        plot(t,F_r(1,:),'b',t,F_r(2,:),'r')
+        plot(t,T_r(1,:),'b',t,T_r(2,:),'r')
         title('Impedance Force')
         legend('X-axis','Y-axis','Location','Best','Orientation','Horizontal')
         ylabel('External Force (N)')
@@ -41,7 +41,7 @@ if(isTaskSpace)
         hold on
     else
         subplot(3,1,2)
-        plot(t,x_v(1,:),'b',t,x_v(2,:),'r')
+        plot(t,x_r(1,:),'b',t,x_r(2,:),'r')
         title('Offset Displacement')
         legend('X-axis','Y-axis','Location','Best','Orientation','Horizontal')
         ylabel('Displacement (m)')
@@ -51,7 +51,7 @@ if(isTaskSpace)
         hold on
         
         subplot(3,1,3)
-        plot(t,q_v(1,:),'b',t,q_v(2,:),'r')
+        plot(t,q_r(1,:),'b',t,q_r(2,:),'r')
         title('Inverse Kinematics')
         legend('Offset Joint 1','Offset Joint 2','Location','Best','Orientation','Horizontal')
         ylabel('Displacement (rad)')
@@ -72,8 +72,8 @@ else
     hold on
     
     subplot(3,1,3)
-    plot(t,q_v(1,:),'b',t,q_v(2,:),'r')
-    title('Inverse Kinematics')
+    plot(t,q_r(1,:),'b',t,q_r(2,:),'r')
+    title('Angular correction offset')
     legend('Offset Joint 1','Offset Joint 2','Location','Best','Orientation','Horizontal')
     ylabel('Displacement (rad)')
     grid on
@@ -106,7 +106,7 @@ annotation('textbox',dim,'String',str,'BackgroundColor','w','FitBoxToText','on',
 drawnow;
 set(gca, 'FontName', 'CMU Serif')
 hold on
-%saveas(gcf,'q_m_d_q_v_f_error','svg')
+%saveas(gcf,'q_m_d_q_r_f_error','svg')
 %%
 figure
 subplot(2,1,1)
@@ -125,7 +125,7 @@ ylabel('x (m)')
 grid on
 set(gca, 'FontName', 'CMU Serif')
 hold on
-hline(x_w(1),':b')
+hline(x_wall(1),':b')
 %saveas(gcf,'X_d_X_m','svg')
 %%
 
@@ -186,7 +186,7 @@ set(gca, 'FontName', 'CMU Serif')
 %{
 figure('Name','Admittance control offset (rad) and sensed external force')
 subplot(2,1,1)
-plot(t,q_v(1,:),'b',t,q_v(2,:),'r')
+plot(t,q_r(1,:),'b',t,q_r(2,:),'r')
 title('Displacement')
 legend('Offset Joint 1','Offset Joint 2')
 ylabel('Displacement (rad)')
