@@ -19,11 +19,11 @@ run('Variables_1DoF.m')
 q_d = 1*sin(pi*t)';
 
 % Environment
-K_env = 0*5e3;
-B_env = 0;
+K_env = 5e3;
+B_env = 10;
 
 % Obstacle
-angle = 30*pi/180;
+angle = 28*pi/180;
 wall = sin(angle)*L;
 
 % Impedance Control

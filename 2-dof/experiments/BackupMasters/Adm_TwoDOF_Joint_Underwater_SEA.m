@@ -1,6 +1,7 @@
 % Control - 2 DoF Robotic Leg with SEA actuator and Fluid Environment
 clear variables; close all; clc;
 addpath('..\..\shared-functions')
+addpath('D:\Users\Public\Documents\Git\ExoTaoHaptics\ExoTaoHaptics\ROBOT_TEST\SCARA\REHAB_ROBOT')
 
 %% Play animation?
 play = 0;
@@ -31,7 +32,7 @@ fileName = 'qDesired.mat';
 %% Patient joints
 patientOffset = [-pi/2+pi/6; 0];
 
-[q_p, dq_p] = patientJoints(A, w, patientOffset, t);
+[q_p, dq_p] = patientJoints(A, w, patientOffset, t)
 
 q_p(1,:) = q_d(1,:);
 q_p(2,:) = q_d(2,:);
@@ -65,11 +66,6 @@ M_imp = 0;      %Nms^2/rad
 %% Rotary Series Elastic Actuator (rSEA) model
 K_SEA = 104;        %Nm/rad
 B_SEA_vector = 30;  %Nms/rad
-
-%% Inner torque controller
-kpTorque = 380;
-kiTorque = 35;
-kdTorque = 0;
 
 %% Patient model (inactive)
 % Kpat = diag([200 120 60]);
@@ -118,7 +114,7 @@ for B_index = 1 : length(B_SEA_vector)
                 % Transform external force into torque at joints
                 T_env(:, i) = Jacobian'*F_env(:, i);
                 
-            % Fluid environment
+                % Fluid environment
             else
                 % Fluid torque (maybe change to hydrodynamic model)
                 T_env(:, i) = K_env*(q(:,i)) + B_env*dq(:,i);
@@ -155,26 +151,26 @@ for B_index = 1 : length(B_SEA_vector)
                 dT_error_in(:,i) = ( T_error_in(:, i ) + T_error_in(:,i - 1) ) / dt;
             end
             
-            T_a(:,i) = kpTorque * T_error_in(:,i) + kiTorque * T_error_in_int(:,i) + kdTorque * dT_error_in(:,i);
+            T_a(:,i) = 380 * T_error_in(:,i) + 35 * T_error_in_int(:,i) + 0 * dT_error_in(:,i);
             T_a(1, i) = Saturation( T_a(1, i), 2*torque_max, 2*torque_min);
             T_a(2, i) = Saturation( T_a(2, i), torque_max, torque_min);
             j = j + 1;
         else
             % Zero-Order Holder (ZOH)
             if i > 1
-                F_env(:, i) = F_env(:, i - 1);
+                F_env(:,i) = F_env(:, i -1);
                 T_env(:, i) = T_env(:, i - 1);
                 T_error_out(:, i) = T_error_out(:, i - 1);
-                T_error_in(:, i) = T_error_in(:, i - 1);
-                T_error_in_int(:, i) = T_error_in_int(:, i - 1);
-                dT_error_in(:, i) = dT_error_in(:, i - 1);
-                T_a(:, i) = T_a(:, i - 1);
-                T_r(:, i) = T_r(:, i - 1);
-                q_r(:, i) =  q_r(:, i - 1);
-                T_p(:, i) = T_p(:, i - 1);
-                dq_r(:, i) = dq_r(:, i - 1);
-                q_p(:, i) = q_p(:, i-1);
-                dq_p(:, i) = dq_p(:, i-1);
+                T_error_in(:,i) = T_error_in(:,i-1);
+                T_error_in_int(:,i) = T_error_in_int(:,i-1);
+                dT_error_in(:,i) = dT_error_in(:,i-1);
+                T_a(: , i) = T_a(:, i - 1);
+                T_r(: , i) = T_r(:, i - 1);
+                q_r(:,i) =  q_r(:,i - 1);
+                T_p(:,i) = T_p(:,i - 1);
+                dq_r(:,i) = dq_r(:,i - 1);
+                q_p(:,i) = q_p(:,i-1);
+                dq_p(:,i) = dq_p(:,i-1);
             end
         end
         dt = t(2) - t(1);
@@ -205,11 +201,9 @@ for B_index = 1 : length(B_SEA_vector)
         hipStateEstimate = (Fk*hipState) + (Bk*input);
         Pk = Fk*(P*Fk') + Qk;
         Kk = (Pk*Hk')*inv((Hk*(Pk*Hk')) + Rk);
-        
         % Values update
         P = Pk - Kk*(Hk*Pk);
         hipState = hipStateEstimate + Kk*(q(1,i) - Hk*hipStateEstimate);
-        
         % Variable asignment
         kalman_states(1:2,i) = hipState;
         
@@ -217,33 +211,185 @@ for B_index = 1 : length(B_SEA_vector)
         dq(1,i) = hipState(2,1);
         % End
     end
+        %%
+        
+        % Animation
+        %if(play)
+        %    run('Animation_TwoDOF_Underwater.m')
+        %end
+        %run('DataAnalysis.m')
+        
+        % Plots
+        %run('TwoDOF_Plots.m')
+        % Plots
+        %run('TwoDOF_Plots.m')
+        % Plots
+        %run('ThesisPlots.m')
+        
+        %run('DampingPlots.m')
+        %dampingPlotKneeData(:,B_index) = rad2deg(q(2,:));
+        %dampingPlotKneeVelocityData(:,B_index) = rad2deg(dq(2,:));
+        
 end
+%% Damping plots
+clc;
+clear numberOfMarkers markerValues markerCurveIndex markerCurve markerCurveVelocity;
+numberOfMarkers = 51;
+markerValues = linspace(0,t(end),numberOfMarkers);
+markerCurveIndex = zeros(length(markerValues),1);
+markerCurve = zeros(length(markerValues),4);
+markerCurveVelocity = zeros(length(markerValues),4);
+for j = 1 : 4
+    for i = 1 : length(markerValues)
+        if j == 1
+            markerCurveIndex(i) = find(t == markerValues(i));
+        end
+        markerCurve(i,j) = dampingPlotKneeData(markerCurveIndex(i), j);
+        markerCurveVelocity (i,j) = dampingPlotKneeVelocityData(markerCurveIndex(i) , j);
+    end
+end
+scatter(markerValues,markerCurve(:,1))
+hold on
+plot(t, dampingPlotKneeData(:,1))
 
-%% Joints
+% Imported variables
+data = load('data_16-12-2020_15-46-39.dat');
+time = data(:,1);
+angle = [data(:,2), data(:,3), data(:,4)];
+angularVelocity = [data(:,5), data(:,6), data(:,7)];
+% Local variables
+dt = 5e-3;
+timeLength = length(time);
+
+if (dampingPlots)
+    % Trajectory
+    figure
+    subplot(2,1,1);
+    % Desired trajectory
+    plot(t,rad2deg(q_d(2,:)),':k');
+    hold on
+    % Actual trajectory
+    plot(time,rad2deg(angle(:,2)),'-k');
+    % Simulated trajectory
+    h = plot(t,dampingPlotKneeData(:,1),'k','LineWidth',0.1); %B = 15
+    h.Annotation.LegendInformation.IconDisplayStyle = 'off';
+    scatter(markerValues,markerCurve(:,1), 'o','MarkerFaceColor','w','MarkerEdgeColor','k');
+    
+    h = plot(t,dampingPlotKneeData(:,2),'k','LineWidth',0.1); %B = 30
+    h.Annotation.LegendInformation.IconDisplayStyle = 'off';
+    scatter(markerValues,markerCurve(:,2), 'v','MarkerFaceColor','w','MarkerEdgeColor','k');
+    
+    h = plot(t,dampingPlotKneeData(:,3),'k','LineWidth',0.1); %B = 45
+    h.Annotation.LegendInformation.IconDisplayStyle = 'off';
+    scatter(markerValues,markerCurve(:,3),'s','MarkerFaceColor','w','MarkerEdgeColor','k');
+    
+    h = plot(t,dampingPlotKneeData(:,4),'k','LineWidth',0.1); %B = 60
+    h.Annotation.LegendInformation.IconDisplayStyle = 'off';
+    scatter(markerValues,markerCurve(:,4),'*','MarkerFaceColor','w','MarkerEdgeColor','k');
+    % Plot properties
+    legend('Desired','Real','15 Nms/rad','30 Nms/rad','45 Nms/rad','60 Nms/rad','Location','SouthEast')
+    ylabel('Knee joint (deg)')
+    grid on; axis tight;
+    set(gca, 'FontName', 'CMU Serif')
+    set(gca,'YMinorGrid','on')
+    set(gca,'XMinorGrid','on')
+    set(gca,'MinorGridLineStyle',':')
+    set(gca,'GridLineStyle',':')
+    if length(t) > length(time)
+        xlim([0 t(end)])
+    else
+        xlim([0 time(end)])
+    end
+    xlim([0 6.5])
+    
+    % Velocity
+    subplot(2,1,2);
+    % Actual velocity
+    plot(time,rad2deg(angularVelocity(:,2)),'k');
+    hold on
+    % Simulated velocity
+    h = plot(t,dampingPlotKneeVelocityData(:,1),'k','LineWidth',0.3); %B = 15
+    h.Annotation.LegendInformation.IconDisplayStyle = 'off';
+    scatter(markerValues,markerCurveVelocity(:,1), 'o','MarkerFaceColor','w','MarkerEdgeColor','k');
+    
+    h = plot(t,dampingPlotKneeVelocityData(:,2),'k','LineWidth',0.3); %B = 30
+    h.Annotation.LegendInformation.IconDisplayStyle = 'off';
+    scatter(markerValues,markerCurveVelocity(:,2), 'v','MarkerFaceColor','w','MarkerEdgeColor','k');
+    
+    h = plot(t,dampingPlotKneeVelocityData(:,3),'k','LineWidth',0.3); %B = 45
+    h.Annotation.LegendInformation.IconDisplayStyle = 'off';
+    scatter(markerValues,markerCurveVelocity(:,3),'s','MarkerFaceColor','w','MarkerEdgeColor','k');
+    
+    h = plot(t,dampingPlotKneeVelocityData(:,4),'k','LineWidth',0.3); %B = 60
+    h.Annotation.LegendInformation.IconDisplayStyle = 'off';
+    scatter(markerValues,markerCurveVelocity(:,4),'*','MarkerFaceColor','w','MarkerEdgeColor','k');
+    
+    % Plot properties
+    ylabel('Knee joint (deg/s)')
+    grid on; axis tight;
+    set(gca, 'FontName', 'CMU Serif')
+    set(gca,'YMinorGrid','on')
+    set(gca,'XMinorGrid','on')
+    set(gca,'MinorGridLineStyle',':')
+    set(gca,'GridLineStyle',':')
+    if length(t) > length(time)
+        xlim([0 t(end)])
+    else
+        xlim([0 time(end)])
+    end
+    xlim([0 6.5])
+    xlabel('Time (s)')
+end
+return
+
+%%
+fig_w = 9*2;
+fig_h = 9*1.5;
+paper_w = fig_w;
+paper_h = fig_h;
+fig = gcf;
+fig.PaperUnits = 'centimeters';
+set(gcf, 'PaperSize', [fig_w fig_h])
+fig.PaperPosition = [0 0 paper_w paper_h];
+saveas(gcf,'DampingPlotsIEEE.svg')
+
+%%
+% figure
+% subplot(3,1,1)
+% plot(t,kalman_states)
+% title('KF states')
+% subplot(3,1,2)
+% plot(t,dq)
+% title('System velocities')
+% subplot(3,1,3)
+% plot(t,T_r)
+% title('Impedance Torque')
+return
+%%
 figure
 subplot(2,1,1)
 plot(t,q(1,:),'b',t,q_d(1,:),'--b')
 title('Joint displacements')
-legend('Measured Joint 1','Desired Joint 1','Location','Southeast')
+legend('Measured Joint 1','Desired Joint 1','Location','Best','Orientation','Horizontal')
 grid on
 axis tight
 set(gca, 'FontName', 'CMU Serif')
 hold on
 
 subplot(2,1,2)
-plot(t,q(2,:),'r',t,q_d(2,:),'--r',t,q_d(2,:)+q_r(2,:),':b',t,q_r(2,:),'-.r')
-legend('Measured Joint 2','Desired Free Joint 2','Desired Corrected','Adm. Correction','Location','Southeast')
+plot(t,q(2,:),'r',t,q_d(2,:),'--r', t, q_d(2,:) +  q_r(2,:),':b',t,q_r(2,:),'m')
+legend('Measured Joint 2','Desired Joint 2','Location','Best','Orientation','Horizontal')
 grid on
 axis tight
 set(gca, 'FontName', 'CMU Serif')
 hold on
 
-%% Velocities
+%%
 figure
 subplot(2,1,1)
 plot(t,dq(1,:),'b',t,dq_d(1,:),'--b')
 title('Joint velocities')
-legend('Measured Joint 1','Desired Joint 1','Location','Southeast')
+legend('Measured Joint 1','Desired Joint 1','Location','Best','Orientation','Horizontal')
 grid on
 axis tight
 set(gca, 'FontName', 'CMU Serif')
@@ -251,30 +397,21 @@ hold on
 
 subplot(2,1,2)
 plot(t,dq(2,:),'r',t,dq_d(2,:),'--r')
-legend('Measured Joint 2','Desired Joint 2','Location','Southeast')
+legend('Measured Joint 2','Desired Joint 2','Location','Best','Orientation','Horizontal')
 grid on
 axis tight
 set(gca, 'FontName', 'CMU Serif')
 hold on
-
-%% Torques
+%%
 figure
-plot(t,T_r(1,:),'b',t,T_r(2,:),'r')
+plot(t,T_r)
 title('Torque Reference (Virtual Impedance)')
 legend('Joint 1','Joint 2')
-set(gca, 'FontName', 'CMU Serif')
-grid on
-
 figure
-plot(t,T_p(1,:),'b',t,T_p(2,:),'r')
+plot(t,T_p)
 title('Patient Torque')
 legend('Joint 1','Joint 2')
-set(gca, 'FontName', 'CMU Serif')
-grid on
-
 figure
-plot(t,T_error_in(1,:),'b',t,T_error_in(2,:),'r')
+plot(t,T_error_in)
 title('Torque Error')
 legend('Joint 1','Joint 2')
-set(gca, 'FontName', 'CMU Serif')
-grid on

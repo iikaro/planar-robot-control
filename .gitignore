@@ -1,3 +1,15 @@
+# Google drive backup files
+*.ini
+
+# Data files
+*.csv
+*.dat
+
+# Vector graphics files
+*.svg
+*.pdf
+*.eps
+
 # Windows default autosave extension
 *.asv
 

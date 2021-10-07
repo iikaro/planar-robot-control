@@ -10,6 +10,7 @@ function [t, dt] = SimulationTime(t_initial, t_final, samples)
 %   If samples is greater than unit, it is considered as the total number
 %   of samples. If it is less than unit, it is considered as the time step
 %   itself.
+
 if samples < 1
     dt = samples;
     t = linspace(t_initial, t_final, t_final*1/dt + 1);

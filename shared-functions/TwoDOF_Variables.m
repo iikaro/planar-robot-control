@@ -1,63 +1,63 @@
 % Degrees-of-freedom
 dof = 2;
 % Desired state
-q_d = zeros(2,length(t));
-dq_d = zeros(2,length(t));
-ddq_d = zeros(2,length(t));
+q_d = zeros(dof, length(t));
+dq_d = zeros(dof, length(t));
+ddq_d = zeros(dof, length(t));
 % State
-q = zeros(2,length(t));
-dq = zeros(2,length(t));
-ddq = zeros(2,length(t));
+q = zeros(dof, length(t));
+dq = zeros(dof, length(t));
+ddq = zeros(dof, length(t));
 % State error
-int_error = zeros(2,length(t));
-q_error = zeros(2,length(t));
-dq_error = zeros(2,length(t));
+int_error = zeros(dof, length(t));
+q_error = zeros(dof, length(t));
+dq_error = zeros(dof, length(t));
 % Torques
-T_d = zeros(2,length(t));       %direct dynamics torque
-T_a = zeros(2,length(t));       %actuator torque
-T_g = zeros(2,length(t));       %gravity compensator
-T_r = zeros(2,length(t));       %
-T_env = zeros(2,length(t));     %end-effector force/torque
-T_error = zeros(2,length(t));     %end-effector force/torque
-dT_error = zeros(2,length(t));
-int_T_error = zeros(2,length(t));
+T_d = zeros(dof, length(t));       %direct dynamics torque
+T_a = zeros(dof, length(t));       %actuator torque
+T_g = zeros(dof, length(t));       %gravity compensator
+T_r = zeros(dof, length(t));       %
+T_env = zeros(dof, length(t));     %end-effector force/torque
+T_error = zeros(dof, length(t));     %end-effector force/torque
+dT_error = zeros(dof, length(t));
+int_T_error = zeros(dof, length(t));
 % Forces
-F_env = zeros(2,length(t));     %end-effector force/torque
-F_d = zeros(2,length(t));       %desired force
-F_r = zeros(2,length(t));       %force reference
+F_env = zeros(dof, length(t));     %end-effector force/torque
+F_d = zeros(dof, length(t));       %desired force
+F_r = zeros(dof, length(t));       %force reference
 % Force error
-F_error = zeros(2,length(t));
-dF_error = zeros(2,length(t));
-int_F_error = zeros(2,length(t));
+F_error = zeros(dof, length(t));
+dF_error = zeros(dof, length(t));
+int_F_error = zeros(dof, length(t));
 % Filtered force measurements
-F_ext_filtered = zeros(2,length(t));
-F_ext_unfiltered = zeros(2,length(t));
+F_ext_filtered = zeros(dof, length(t));
+F_ext_unfiltered = zeros(dof, length(t));
 
 % End-effector state
-X = zeros(2,length(t));
-dX = zeros(2,length(t));
+X = zeros(dof, length(t));
+dX = zeros(dof, length(t));
 % End-effector orientation
 theta = zeros(1,length(t));
 % Desired end-effector position
-x_d = zeros(2,length(t));
-y_d = zeros(2,length(t));
+x_d = zeros(dof, length(t));
+y_d = zeros(dof, length(t));
 % End-effector position
-x = zeros(1,length(t));
-y = zeros(1,length(t));
+x = zeros(1, length(t));
+y = zeros(1, length(t));
 % Admittance controller variables
 % Joint
-q_r = zeros(2, length(t));
-dq_r = zeros(2, length(t));
+q_r = zeros(dof, length(t));
+dq_r = zeros(dof, length(t));
 % Cartesian
 x_r = zeros(2, length(t));
 dx_r = zeros(2, length(t));
 % Additional paramters
-T_p = zeros(2,length(t));
-T_error_out = zeros(2,length(t));
-T_error_in = zeros(2,length(t));
-T_error_in_int = zeros(2,length(t));
-dT_error_in = zeros(2,length(t));
-kalman_states = zeros(4,length(t));
+T_p = zeros(dof, length(t));
+T_error_out = zeros(dof, length(t));
+T_error_in = zeros(dof, length(t));
+T_error_in_int = zeros(dof, length(t));
+dT_error_in = zeros(dof, length(t));
+kalman_states = zeros(4, length(t));
 T_d_in = T_d;
 T_d_out = T_d;
 
